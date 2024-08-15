@@ -1,1 +1,4 @@
-claudde
+requests
+xlwt
+smtplib
+email
