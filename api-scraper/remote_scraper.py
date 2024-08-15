@@ -1,5 +1,6 @@
 import requests
 import xlwt
+from xlwt import Workbook
 import  smtplib
 from os.path import basename
 from email.mime.application  import MIMEApplication
@@ -14,7 +15,21 @@ REQUEST_header={
     'Accept-Langage':'ens-US ,  en;q=0.5',
 
 }
+def  getjob_xls(data):
+    wb=Workbook()
+    job_sheet=wb.add_sheet('job')
+    headers=list(data[0].keys())
+    for i in range(0 ,len(headers)):
 
+        job_sheet.write(0,i,headers[i])
+
+    for  i  in range(0,len(data)):
+       job=data[i]
+       values=list(job.values())
+       for  x in range  (0, len(values)):
+            job_sheet.write(i+1, x , values[x])
+
+    wb.save('job_sheet_remote.xls')
 
 
 def getjobremote():
@@ -23,5 +38,5 @@ def getjobremote():
 
 if __name__ == "__main__":
 
-    json=  getjobremote()[1]
-    print(json)
+    json=  getjobremote()[1:]
+    getjob_xls(json)
